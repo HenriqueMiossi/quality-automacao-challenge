@@ -1,0 +1,8 @@
+SET client_encoding = 'UTF8';
+
+CREATE SCHEMA IF NOT EXISTS dbo;
+
+CREATE TABLE IF NOT EXISTS dbo.user (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL
+);
