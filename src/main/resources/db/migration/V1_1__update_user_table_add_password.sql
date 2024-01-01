@@ -1,0 +1,2 @@
+ALTER TABLE dbo.user
+ADD COLUMN password TEXT NOT NULL;
