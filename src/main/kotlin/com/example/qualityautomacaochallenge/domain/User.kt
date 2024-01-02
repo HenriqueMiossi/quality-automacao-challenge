@@ -5,8 +5,9 @@ import lombok.*
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.time.LocalDateTime
 
-@Table(name = "user")
+@Table(name = "user", schema = "dbo")
 @Entity(name = "User")
 @Getter
 @NoArgsConstructor
@@ -20,10 +21,14 @@ class User(
     private val username: String,
 
     @Setter
-    private val password: String
+    private val password: String,
+
+    @Column(columnDefinition = "TIMESTAMP")
+    private val created: LocalDateTime
 ) : UserDetails {
 
-    constructor(username: String, password: String) : this(0, username, password)
+    constructor(username: String, password: String) : this(0, username, password, LocalDateTime.now())
+    constructor(id: Int, username: String, password: String) : this(id, username, password, LocalDateTime.now())
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         // In a larger application, a more robust implementation of roles is better suited, maybe with a Role enum
@@ -53,5 +58,13 @@ class User(
 
     override fun isEnabled(): Boolean {
         return true
+    }
+
+    fun getId(): Int {
+        return this.id
+    }
+
+    fun getCreated(): LocalDateTime {
+        return this.created
     }
 }

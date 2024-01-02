@@ -3,12 +3,11 @@ package com.example.qualityautomacaochallenge.infrastructure.security
 import com.example.qualityautomacaochallenge.domain.User
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.time.temporal.ChronoUnit
-import java.util.Date
+import java.util.*
 
 @Service
 class TokenService(
@@ -16,12 +15,13 @@ class TokenService(
 ) {
     fun generateToken(user: User): String {
         try {
-            return Jwts.builder()
-                .issuer("auth-api")
-                .subject(user.username)
-                .expiration(createExpirationDate())
-                .signWith(signingKey.getPrivateKey())
-                .compact()
+            return "Bearer " +
+                    Jwts.builder()
+                        .issuer("auth-api")
+                        .subject(user.getId().toString())
+                        .expiration(createExpirationDate())
+                        .signWith(signingKey.getPrivateKey())
+                        .compact()
         } catch (e: JwtException) {
             throw RuntimeException("Error while generating token", e)
         }

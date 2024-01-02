@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
+import kotlin.jvm.optionals.getOrNull
 
 @Component
 class SecurityFilter(
@@ -23,8 +24,8 @@ class SecurityFilter(
         val token = recoverToken(request)
 
         if (token != null) {
-            val username = tokenService.validateToken(token)
-            val userDetails = userRepository.findByUsername(username)
+            val id = tokenService.validateToken(token).toInt()
+            val userDetails = userRepository.findById(id).getOrNull()
 
             val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails?.authorities)
             SecurityContextHolder.getContext().authentication = authentication

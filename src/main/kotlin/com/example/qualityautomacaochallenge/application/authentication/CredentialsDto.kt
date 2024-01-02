@@ -1,3 +1,3 @@
 package com.example.qualityautomacaochallenge.application.authentication
 
-data class LoginResponseDto(val token: String)
+data class CredentialsDto(val username: String, val password: String)
