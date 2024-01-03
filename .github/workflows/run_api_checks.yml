@@ -1,0 +1,27 @@
+name: run_backend_checks
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  run-backend-checks:
+    runs-on: ubuntu-latest
+    env:
+      SPRING_PROFILES_ACTIVE: testing
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Install dependencies, build and run tests
+        working-directory: .
+        run: mvn -B package --file pom.xml

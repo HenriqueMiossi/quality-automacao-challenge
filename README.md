@@ -1,80 +1,122 @@
 
 # Project Title
 
-A brief description of what this project does and who it's for
+This project consists of a Rest API developed with Spring Boot and Kotlin, which allows you to manage users in a PostgreSQL database. The API implements the basic operations of creating, reading, updating and deleting (CRUD) users, following the principles of the Rest pattern. The API also has features such as authentication with Spring Security, unit testing and a route that shows statistics of registered users per day.
 
+## Requisites
 
-## Tech Stack
+* Latest stable version of Docker and Docker Compose
+* Postman
+* If you prefer to run the project inside an IDE, the `Lombok` and `Docker` plugins may be necessary when applicable
 
-**Client:** React, Redux, TailwindCSS
+## Installation
 
-**Server:** Node, Express
+To install this project, follow the following steps:
 
-
-## Run Locally
-
-Clone the project
-
-```bash
-  git clone https://link-to-project
+1. Clone this repository to your local machine using the command:
+```sh
+git clone https://github.com/seu-usuario/api-rest-usuarios.git
 ```
 
-Go to the project directory
-
-```bash
-  cd my-project
+2. Open the project in the terminal and run with:
+```sh
+docker compose up
 ```
 
-Install dependencies
+If you prefer to run it inside an IDE (IntelliJ recommended), you just need to configure the support for Docker Compose and run the project (**important: don't forget to install the required plugins when applicable**):
 
-```bash
-  npm install
-```
+![compose-config](./assets/compose-config.png)
 
-Start the server
-
-```bash
-  npm run start
-```
-
+3. Open Postman and import `quality-automação-challenge.postman_collection.json` API collection and the `development-environment.postman_environment.json` environment configuration that is in the project's postman folder. This files contains API routes, sample requests and the required environment variables to test the project.
 
 ## API Reference
 
-#### Get all items
+Every API call is also documented in the Postman docs tab, in the controller source file.
+
+#### Register a new user
 
 ```http
-  GET /api/items
+  POST /register
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
+```json
+{
+  "username": "Quality",
+  "password": "secret"
+}
+```
 
-#### Get item
+#### Login
+
+This API call is configured in Postman to automatically set a variable with the returned token, so there is no need to manually set it to perform authenticated requests.
 
 ```http
-  GET /api/items/${id}
+  POST /login
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of item to fetch |
+```json
+{
+  "username": "Quality",
+  "password": "secret"
+}
+```
 
-#### add(num1, num2)
+#### List Registered Users
 
-Takes two numbers and returns the sum.
+Requires authentication (Bearer Token)
 
+```http
+  GET /users
+```
+
+#### Delete User
+
+Requires authentication (Bearer Token)
+
+```http
+  DELETE /user
+```
+| Parameter | Type     | Description                              |
+| :-------- | :------- | :--------------------------------------- |
+| `username`| `string` | **Required**. Username of user to delete |
+
+#### Update User
+
+Requires authentication (Bearer Token)
+
+```http
+  PUT /user
+```
+| Parameter | Type     | Description                              |
+| :-------- | :------- | :--------------------------------------- |
+|    `id`   | `string` | **Required**. ID of user to update       |
+
+```json
+{
+  "username": "Quality_edited",
+  "password": "secret_edited"
+}
+```
+
+#### List Registered Users Count by Date
+
+Requires authentication (Bearer Token)
+
+```http
+  GET /user-count
+```
 
 ## Running Tests
 
-To run tests, run the following command
+The tests are already executed when starting the project with Docker Compose, but if you want to manually run them, follow this steps:
 
-```bash
-  npm run test
-```
+1. Open your favourite IDE and do the proper configurations (IntelliJ recommended):
 
+  * Note that all tests in the package are configured to be run
+  * Also note the environment variable `SPRING_CONFIG_NAME=application-testing`, don't forget to set it (**important**)
 
-## Authors
+![test-config](./assets/test-config.png)
 
-- [@octokatherine](https://www.github.com/octokatherine)
+2. With all those configurations, you can just run the tests and wait for the results.
 
+![test-result](./assets/test-result.png)
