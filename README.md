@@ -23,7 +23,7 @@ git clone https://github.com/seu-usuario/api-rest-usuarios.git
 docker compose up
 ```
 
-If you prefer to run it inside an IDE (IntelliJ recommended), you just need to configure the support for Docker Compose and run the project (**important: don't forget to install the required plugins when applicable**):
+In the end, both the Spring Boot API and the PostgreSQL database will start automatically, but if you still prefer to run everything outside the terminal and with an IDE (IntelliJ recommended), you just need to configure the support for Docker Compose and run the project (**important: don't forget to install the required plugins when applicable**):
 
 ![compose-config](./assets/compose-config.png)
 
